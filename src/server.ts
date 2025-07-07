@@ -7,7 +7,7 @@ let server: Server;
 const startServer = async () => {
   try {
     await mongoose.connect(
-      `mongodb+srv://noteDB:EaeyMwI0AW4t7tSV@cluster0.bytzc92.mongodb.net/tour-management-backend?retryWrites=true&w=majority&appName=Cluster0`
+      `mongodb+srv://tourDB:hKjV1NQOMlc3m8vf@cluster0.bytzc92.mongodb.net/tour-management-backend?retryWrites=true&w=majority&appName=Cluster0`
     );
     console.log("connect to DB");
     server = app.listen(5000, () => {
