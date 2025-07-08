@@ -1,17 +1,17 @@
+/* eslint-disable no-console */
 import { Server } from "http";
 import mongoose from "mongoose";
 import app from "./app";
+import { envVars } from "./app/config/env";
 
 let server: Server;
 
 const startServer = async () => {
   try {
-    await mongoose.connect(
-      `mongodb+srv://tourDB:hKjV1NQOMlc3m8vf@cluster0.bytzc92.mongodb.net/tour-DB?retryWrites=true&w=majority&appName=Cluster0`
-    );
+    await mongoose.connect(envVars.DB_URL);
     console.log("connect to DB");
-    server = app.listen(5000, () => {
-      console.log("Server is Listing");
+    server = app.listen(envVars.PORT, () => {
+      console.log(`Server is listening to port ${envVars.PORT}`);
     });
   } catch (error) {
     console.log(error);
@@ -21,7 +21,7 @@ const startServer = async () => {
 startServer();
 
 process.on("SIGTERM", () => {
-  console.log("SIGTERM signal recieved... Server shutting down..");
+  console.log("SIGTERM signal received... Server shutting down..");
 
   if (server) {
     server.close(() => {
@@ -33,7 +33,7 @@ process.on("SIGTERM", () => {
 });
 
 process.on("SIGINT", () => {
-  console.log("SIGINT signal recieved... Server shutting down..");
+  console.log("SIGINT signal received... Server shutting down..");
 
   if (server) {
     server.close(() => {
