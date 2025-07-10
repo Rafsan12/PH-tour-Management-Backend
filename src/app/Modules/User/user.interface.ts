@@ -17,7 +17,7 @@ export enum IsActive {
   BLOCKED = "BLOCKED",
 }
 
-export interface Iuser {
+export interface IUser {
   name: string;
   email: string;
   password?: string;
@@ -30,7 +30,7 @@ export interface Iuser {
   isVerified?: string;
 
   auths: IAuthProvider[];
-  roles: Role;
+  role: Role;
   booking?: Types.ObjectId[];
   guides?: Types.ObjectId[];
 }
