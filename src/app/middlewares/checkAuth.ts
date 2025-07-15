@@ -21,6 +21,7 @@ export const checkAuth =
         throw new AppError(403, "You are not Permitted To view this Route");
       }
 
+      req.user = verifiedToken;
       next();
     } catch (error) {
       next(error);
