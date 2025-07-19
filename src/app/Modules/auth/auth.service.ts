@@ -1,5 +1,7 @@
 import bcrypt from "bcryptjs";
 import httpStatus from "http-status-codes";
+import { JwtPayload } from "jsonwebtoken";
+import { envVars } from "../../config/env";
 import AppError from "../../ErrorHelper/AppError";
 import { createUserToken } from "../../utils/userTokens";
 import { IUser } from "../User/user.interface";
@@ -38,7 +40,32 @@ const getNewAccessToken = async (refreshToken: string) => {
   };
 };
 
-export const AuthService = {
+const resetPassword = async (
+  decodedToken: JwtPayload,
+  oldPassword: string,
+  newPassword: string
+) => {
+  const user = await User.findById(decodedToken.userId);
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "User not found");
+  }
+
+  const isOldPasswordMatch = await bcrypt.compare(
+    oldPassword,
+    user.password as string
+  );
+  if (!isOldPasswordMatch) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "Old password doesn't match");
+  }
+  user.password = await bcrypt.hash(
+    newPassword,
+    Number(envVars.BCRYPT_SALT_ROUND)
+  );
+  await user.save();
+};
+
+export const AuthServices = {
   credentialsLogin,
   getNewAccessToken,
+  resetPassword,
 };
