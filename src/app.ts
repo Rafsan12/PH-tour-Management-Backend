@@ -4,6 +4,7 @@ import express, { Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import expressSession from "express-session";
 import passport from "passport";
+import { envVars } from "./app/config/env";
 import "./app/config/passport";
 import { globalErrorHandler } from "./app/middlewares/globalError";
 import notFound from "./app/middlewares/NotFound";
@@ -14,7 +15,7 @@ import { router } from "./app/routes";
 const app = express();
 app.use(
   expressSession({
-    secret: "YOUR SECRET",
+    secret: envVars.EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
