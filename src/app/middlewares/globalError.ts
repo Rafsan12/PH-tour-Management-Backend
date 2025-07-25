@@ -12,6 +12,15 @@ export const globalErrorHandler = (
 ) => {
   let statusCode = 500;
   let message = `Something went wrong ${error.message}`;
+  if (error.code === 1100) {
+    statusCode = 400;
+
+    const duplicate = error.message.match(/"([^"]*)"/);
+    message = `${duplicate[1]} already exits`;
+  } else if (error.name === "CastError") {
+    statusCode = 400;
+    message = "Invalid MongoID.Please provide a valid Id";
+  }
   if (error instanceof AppError) {
     statusCode = error.statusCode;
     message = error.message;
