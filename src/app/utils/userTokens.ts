@@ -58,6 +58,7 @@ export const createAccessTokenAndRefreshToken = async (
     email: isUserExits.email,
     role: isUserExits.role,
   };
+
   const accessToken = generateToken(
     jwtPayload,
     envVars.JWT_ACCESS_SECRET,
