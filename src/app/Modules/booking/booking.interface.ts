@@ -11,6 +11,6 @@ export interface IBooking {
   user: Types.ObjectId;
   tour: Types.ObjectId;
   payment?: Types.ObjectId;
-  gustCount: number;
+  guestCount: number;
   status: Booking_Status;
 }
