@@ -4,18 +4,29 @@ import { checkAuth } from "../../middlewares/checkAuth";
 import { Role } from "../User/user.interface";
 import { AuthControllers } from "./auth.controller";
 
-const routes = Router();
+const router = Router();
 
-routes.post("/login", AuthControllers.credentialsLogin);
-routes.post("/refresh-token", AuthControllers.getNewAccessToken);
-routes.post("/logout", AuthControllers.logOut);
-routes.post(
+router.post("/login", AuthControllers.credentialsLogin);
+router.post("/refresh-token", AuthControllers.getNewAccessToken);
+router.post("/logout", AuthControllers.logOut);
+router.post(
   "/reset-password",
   checkAuth(...Object.values(Role)),
   AuthControllers.resetPassword
 );
+router.post(
+  "/change-password",
+  checkAuth(...Object.values(Role)),
+  AuthControllers.changePassword
+);
+router.post(
+  "/set-password",
+  checkAuth(...Object.values(Role)),
+  AuthControllers.setPassword
+);
+router.post("/forgot-password", AuthControllers.forgotPassword);
 
-routes.get(
+router.get(
   "/google",
 
   async (req: Request, res: Response, next: NextFunction) => {
@@ -26,9 +37,9 @@ routes.get(
     })(req, res, next);
   }
 );
-routes.get(
+router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   AuthControllers.googleCallbackController
 );
-export const AuthRoutes = routes;
+export const AuthRoutes = router;

@@ -2,6 +2,7 @@ import express from "express";
 import { checkAuth } from "../../middlewares/checkAuth";
 import { validateRequest } from "../../middlewares/validateRequest";
 
+import { multerUpload } from "../../config/multer.config";
 import { Role } from "../User/user.interface";
 import { TourController } from "./tour.controller";
 import {
@@ -42,6 +43,7 @@ router.post(
   "/create",
   checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
   validateRequest(createTourZodSchema),
+  multerUpload.array("files"),
   TourController.createTour
 );
 
