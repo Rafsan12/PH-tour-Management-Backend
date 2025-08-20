@@ -6,9 +6,11 @@ import path from "path";
 import { envVars } from "../config/env";
 import AppError from "../ErrorHelper/AppError";
 
+// console.log(envVars.EmailSender);
 const transporter = nodemailer.createTransport({
   // port: envVars.EMAIL_SENDER.SMTP_PORT,
   secure: true,
+
   auth: {
     user: envVars.EmailSender.SMTP_USER,
     pass: envVars.EmailSender.SMTP_PASS,
