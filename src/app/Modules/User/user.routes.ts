@@ -17,12 +17,19 @@ router.get(
   checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
   UserController.getAllUser
 );
+router.get("/me", checkAuth(...Object.values(Role)), UserController.getMe);
 
 router.patch(
   "/:id",
   validateRequest(updateUserZodSchema),
   checkAuth(...Object.values(Role)),
   UserController.updateUser
+);
+
+router.get(
+  "/:id",
+  checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
+  UserController.getSingleUser
 );
 
 export const userRoutes = router;
